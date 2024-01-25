@@ -5,11 +5,25 @@ import { TodoContextProvider, Todo } from "./Contexts";
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   function addTodo(todo: Todo) {
-    setTodos((prev) => [...prev, todo]);
+    setTodos((prev) => [...prev, { ...todo, id: Date.now() }]);
   }
-  function toggleTodo() {}
-  function deleteTodo() {}
-  function updateTodo() {}
+  function updateTodo(id: number, todo: Todo) {
+    setTodos((prev) =>
+      prev?.map((prevTodo: Todo) => (prevTodo.id === id ? todo : prevTodo))
+    );
+  }
+
+  function toggleTodo(id: number) {
+    setTodos((prev) =>
+      prev.map((todo: Todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  }
+  function deleteTodo(id: number) {
+    setTodos((prev) => prev.filter((todo: Todo) => todo.id !== id));
+  }
+
   return (
     <TodoContextProvider
       value={{ todos, addTodo, toggleTodo, deleteTodo, updateTodo }}
