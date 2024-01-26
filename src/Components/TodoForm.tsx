@@ -8,7 +8,7 @@ function TodoForm() {
   function addTodoitem(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!todo) return;
-    addTodo({ todo: todo, completed: false });
+    addTodo({ id: Date.now(), todo: todo, completed: false });
     setTodo("");
   }
   return (
